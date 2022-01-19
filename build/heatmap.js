@@ -4,7 +4,7 @@
  * Copyright 2008-2016 Patrick Wied <heatmapjs@patrick-wied.at> - All rights reserved.
  * Dual licensed under MIT and Beerware license 
  *
- * :: 2016-09-05 01:16
+ * :: 2022-01-19 15:39
  */
 ;(function (name, context, factory) {
 
@@ -272,7 +272,7 @@ var Canvas2dRenderer = (function Canvas2dRendererClosure() {
     var tplCtx = tplCanvas.getContext('2d');
     var x = radius;
     var y = radius;
-    tplCanvas.width = tplCanvas.height = radius*2;
+    tplCanvas.width = tplCanvas.height = radius * 2;
 
     if (blurFactor == 1) {
       tplCtx.beginPath();
@@ -280,11 +280,11 @@ var Canvas2dRenderer = (function Canvas2dRendererClosure() {
       tplCtx.fillStyle = 'rgba(0,0,0,1)';
       tplCtx.fill();
     } else {
-      var gradient = tplCtx.createRadialGradient(x, y, radius*blurFactor, x, y, radius);
+      var gradient = tplCtx.createRadialGradient(x, y, radius * blurFactor, x, y, radius);
       gradient.addColorStop(0, 'rgba(0,0,0,1)');
       gradient.addColorStop(1, 'rgba(0,0,0,0)');
       tplCtx.fillStyle = gradient;
-      tplCtx.fillRect(0, 0, 2*radius, 2*radius);
+      tplCtx.fillRect(0, 0, 2 * radius, 2 * radius);
     }
 
 
@@ -302,11 +302,11 @@ var Canvas2dRenderer = (function Canvas2dRendererClosure() {
     var xValues = Object.keys(data);
     var xValuesLen = xValues.length;
 
-    while(xValuesLen--) {
+    while (xValuesLen--) {
       var xValue = xValues[xValuesLen];
       var yValues = Object.keys(data[xValue]);
       var yValuesLen = yValues.length;
-      while(yValuesLen--) {
+      while (yValuesLen--) {
         var yValue = yValues[yValuesLen];
         var value = data[xValue][yValue];
         var radius = radi[xValue][yValue];
@@ -337,8 +337,8 @@ var Canvas2dRenderer = (function Canvas2dRendererClosure() {
 
     canvas.className = 'heatmap-canvas';
 
-    this._width = canvas.width = shadowCanvas.width = config.width || +(computed.width.replace(/px/,''));
-    this._height = canvas.height = shadowCanvas.height = config.height || +(computed.height.replace(/px/,''));
+    this._width = canvas.width = shadowCanvas.width = config.width || +(computed.width.replace(/px/, ''));
+    this._height = canvas.height = shadowCanvas.height = config.height || +(computed.height.replace(/px/, ''));
 
     this.shadowCtx = shadowCanvas.getContext('2d');
     this.ctx = canvas.getContext('2d');
@@ -392,7 +392,7 @@ var Canvas2dRenderer = (function Canvas2dRendererClosure() {
       this.ctx.clearRect(0, 0, this._width, this._height);
     },
     _setStyles: function(config) {
-      this._blur = (config.blur == 0)?0:(config.blur || config.defaultBlur);
+      this._blur = (config.blur == 0) ? 0 : (config.blur || config.defaultBlur);
 
       if (config.backgroundColor) {
         this.canvas.style.backgroundColor = config.backgroundColor;
@@ -415,7 +415,7 @@ var Canvas2dRenderer = (function Canvas2dRendererClosure() {
       // on a point basis?
       var blur = 1 - this._blur;
 
-      while(dataLen--) {
+      while (dataLen--) {
 
         var point = data[dataLen];
 
@@ -440,7 +440,7 @@ var Canvas2dRenderer = (function Canvas2dRendererClosure() {
         }
         // value from minimum / value range
         // => [0, 1]
-        var templateAlpha = (value-min)/(max-min);
+        var templateAlpha = (value - min) / (max - min);
         // this fixes #176: small values are not visible because globalAlpha < .01 cannot be read from imageData
         shadowCtx.globalAlpha = templateAlpha < .01 ? .01 : templateAlpha;
 
@@ -448,17 +448,17 @@ var Canvas2dRenderer = (function Canvas2dRendererClosure() {
 
         // update renderBoundaries
         if (rectX < this._renderBoundaries[0]) {
-            this._renderBoundaries[0] = rectX;
-          }
-          if (rectY < this._renderBoundaries[1]) {
-            this._renderBoundaries[1] = rectY;
-          }
-          if (rectX + 2*radius > this._renderBoundaries[2]) {
-            this._renderBoundaries[2] = rectX + 2*radius;
-          }
-          if (rectY + 2*radius > this._renderBoundaries[3]) {
-            this._renderBoundaries[3] = rectY + 2*radius;
-          }
+          this._renderBoundaries[0] = rectX;
+        }
+        if (rectY < this._renderBoundaries[1]) {
+          this._renderBoundaries[1] = rectY;
+        }
+        if (rectX + 2 * radius > this._renderBoundaries[2]) {
+          this._renderBoundaries[2] = rectX + 2 * radius;
+        }
+        if (rectY + 2 * radius > this._renderBoundaries[3]) {
+          this._renderBoundaries[3] = rectY + 2 * radius;
+        }
 
       }
     },
@@ -493,7 +493,7 @@ var Canvas2dRenderer = (function Canvas2dRendererClosure() {
       var palette = this._palette;
 
 
-      for (var i = 3; i < len; i+= 4) {
+      for (var i = 3; i < len; i += 4) {
         var alpha = imgData[i];
         var offset = alpha * 4;
 
@@ -517,14 +517,14 @@ var Canvas2dRenderer = (function Canvas2dRendererClosure() {
           }
         }
 
-        imgData[i-3] = palette[offset];
-        imgData[i-2] = palette[offset + 1];
-        imgData[i-1] = palette[offset + 2];
+        imgData[i - 3] = palette[offset];
+        imgData[i - 2] = palette[offset + 1];
+        imgData[i - 1] = palette[offset + 2];
         imgData[i] = useGradientOpacity ? palette[offset + 3] : finalAlpha;
 
       }
 
-      img.data = imgData;
+      // img.data = imgData;
       this.ctx.putImageData(img, x, y);
 
       this._renderBoundaries = [1000, 1000, 0, 0];
@@ -538,7 +538,7 @@ var Canvas2dRenderer = (function Canvas2dRendererClosure() {
       var max = this._max;
       var min = this._min;
 
-      value = (Math.abs(max-min) * (data/255)) >> 0;
+      value = (Math.abs(max - min) * (data / 255)) >> 0;
 
       return value;
     },
